@@ -113,11 +113,41 @@ a {
 }
 
 /* highlight.js tokens, mapped to the palette above */
-.hljs-keyword, .hljs-selector-tag, .hljs-literal, .hljs-doctag, .hljs-meta .hljs-keyword { color: var(--hl-keyword); }
-.hljs-string, .hljs-regexp, .hljs-addition, .hljs-attribute, .hljs-meta .hljs-string { color: var(--hl-string); }
-.hljs-number, .hljs-symbol, .hljs-bullet, .hljs-variable.constant_ { color: var(--hl-number); }
-.hljs-comment, .hljs-quote, .hljs-deletion { color: var(--hl-comment); font-style: italic; }
-.hljs-title, .hljs-section, .hljs-name, .hljs-attr, .hljs-built_in, .hljs-type, .hljs-tag { color: var(--hl-title); }
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal,
+.hljs-doctag,
+.hljs-meta .hljs-keyword {
+  color: var(--hl-keyword);
+}
+.hljs-string,
+.hljs-regexp,
+.hljs-addition,
+.hljs-attribute,
+.hljs-meta .hljs-string {
+  color: var(--hl-string);
+}
+.hljs-number,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-variable.constant_ {
+  color: var(--hl-number);
+}
+.hljs-comment,
+.hljs-quote,
+.hljs-deletion {
+  color: var(--hl-comment);
+  font-style: italic;
+}
+.hljs-title,
+.hljs-section,
+.hljs-name,
+.hljs-attr,
+.hljs-built_in,
+.hljs-type,
+.hljs-tag {
+  color: var(--hl-title);
+}
 
 /* MDXEditor (admin only): map its theme variables onto the site palette, so it follows light/dark too.
    Its dialogs and dropdowns render in a separate popup container, which needs the same variables. */

@@ -14,7 +14,10 @@ export default function AdminIndex({ loaderData }: Route.ComponentProps) {
     <>
       <div className="mb-6 flex items-baseline justify-between">
         <h1 className="font-serif text-2xl font-medium">Posts</h1>
-        <Link to="/admin/posts/new" className="rounded-md bg-accent px-3 py-1.5 text-sm font-medium text-bg no-underline hover:opacity-90">
+        <Link
+          to="/admin/posts/new"
+          className="rounded-md bg-accent px-3 py-1.5 text-sm font-medium text-bg no-underline hover:opacity-90"
+        >
           New post
         </Link>
       </div>
@@ -26,7 +29,7 @@ export default function AdminIndex({ loaderData }: Route.ComponentProps) {
             </Link>
             <span className="flex shrink-0 items-baseline gap-3 text-sm text-muted">
               {p.status === "draft" ? (
-                <span className="rounded border border-rule px-1.5 text-xs uppercase tracking-wide">Draft</span>
+                <span className="rounded border border-rule px-1.5 text-xs tracking-wide uppercase">Draft</span>
               ) : (
                 p.published_on && formatDate(p.published_on, "short")
               )}

@@ -16,20 +16,20 @@
       "database_name": "portfolio",
       // Replace with the id printed by `npx wrangler d1 create portfolio`.
       "database_id": "00000000-0000-0000-0000-000000000000",
-      "migrations_dir": "migrations"
-    }
+      "migrations_dir": "migrations",
+    },
   ],
   "r2_buckets": [
     {
       // Images uploaded from the post editor. Create with `npx wrangler r2 bucket create portfolio-media`.
       "binding": "MEDIA",
-      "bucket_name": "portfolio-media"
-    }
+      "bucket_name": "portfolio-media",
+    },
   ],
   "vars": {
     // Cloudflare Access settings for /admin. Fill these in after creating the
     // Access application (see README). Admin stays locked until both are set.
     "ACCESS_TEAM_DOMAIN": "",
-    "ACCESS_AUD": ""
-  }
+    "ACCESS_AUD": "",
+  },
 }

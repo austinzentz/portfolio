@@ -32,10 +32,7 @@ export async function listPublished(limit = 1000) {
 }
 
 export function getPublished(slug: string) {
-  return db()
-    .prepare(`SELECT * FROM posts WHERE slug = ? AND status = 'published'`)
-    .bind(slug)
-    .first<Post>();
+  return db().prepare(`SELECT * FROM posts WHERE slug = ? AND status = 'published'`).bind(slug).first<Post>();
 }
 
 export async function listAll() {

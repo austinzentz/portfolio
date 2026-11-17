@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense, useState, useSyncExternalStore } from "react";
 import { Form, Link, useNavigation } from "react-router";
 
 // MDXEditor only runs in the browser. Until it has loaded (or if JavaScript is off), a plain
@@ -16,6 +16,8 @@ function PlainBody({ value, onChange }: { value: string; onChange: (v: string) =
   );
 }
 
+const noop = () => () => {};
+
 export type EditorValues = {
   title: string;
   slug: string;
@@ -27,17 +29,37 @@ export type EditorValues = {
 type Errors = Partial<Record<keyof EditorValues, string>>;
 
 const slugify = (s: string) =>
-  s.toLowerCase().normalize("NFKD").replace(/[^\w\s-]/g, "").trim().replace(/[\s_-]+/g, "-").replace(/^-|-$/g, "");
+  s
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[^\w\s-]/g, "")
+    .trim()
+    .replace(/[\s_-]+/g, "-")
+    .replace(/^-|-$/g, "");
 
 const input =
   "mt-1 block w-full rounded-md border border-rule bg-bg px-3 py-2 text-base text-fg placeholder:text-muted/70 focus:border-accent focus:outline-none";
 
-function Field({ label, error, hint, children }: { label: string; error?: string; hint?: string; children: React.ReactNode }) {
+function Field({
+  label,
+  error,
+  hint,
+  children,
+}: {
+  label: string;
+  error?: string;
+  hint?: string;
+  children: React.ReactNode;
+}) {
   return (
     <label className="block text-sm">
       <span className="font-medium">{label}</span>
       {children}
-      {error ? <span className="mt-1 block text-[#b3261e] dark:text-[#f2b8b5]">{error}</span> : hint ? <span className="mt-1 block text-muted">{hint}</span> : null}
+      {error ? (
+        <span className="mt-1 block text-[#b3261e] dark:text-[#f2b8b5]">{error}</span>
+      ) : hint ? (
+        <span className="mt-1 block text-muted">{hint}</span>
+      ) : null}
     </label>
   );
 }
@@ -57,8 +79,12 @@ export function PostEditor({
   const [slug, setSlug] = useState(initial.slug);
   const [slugEdited, setSlugEdited] = useState(!isNew);
   const [body, setBody] = useState(initial.body);
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  // false during SSR and hydration, true afterwards (the rich editor is client-only).
+  const mounted = useSyncExternalStore(
+    noop,
+    () => true,
+    () => false,
+  );
   const busy = useNavigation().state === "submitting";
 
   return (
@@ -80,7 +106,9 @@ export function PostEditor({
         <Field
           label="Slug"
           error={errors.slug}
-          hint={!isNew && initial.status === "published" ? "Changing this breaks existing links." : `/posts/${slug || "…"}`}
+          hint={
+            !isNew && initial.status === "published" ? "Changing this breaks existing links." : `/posts/${slug || "…"}`
+          }
         >
           <input
             name="slug"

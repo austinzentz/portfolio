@@ -99,14 +99,21 @@ export default function RichEditor({
         imagePlugin({ imageUploadHandler: uploadImage, disableImageResize: true }),
         codeBlockPlugin({ defaultCodeBlockLanguage: "" }),
         codeMirrorPlugin({ codeBlockLanguages: CODE_LANGUAGES }),
-        diffSourcePlugin({ viewMode: "rich-text", diffMarkdown: savedMarkdown, codeMirrorExtensions: [spellcheckSource] }),
+        diffSourcePlugin({
+          viewMode: "rich-text",
+          diffMarkdown: savedMarkdown,
+          codeMirrorExtensions: [spellcheckSource],
+        }),
         markdownShortcutPlugin(),
         toolbarPlugin({
           toolbarContents: () => (
             <DiffSourceToggleWrapper options={["rich-text", "source", "diff"]}>
               <ConditionalContents
                 options={[
-                  { when: (editor) => editor?.editorType === "codeblock", contents: () => <ChangeCodeMirrorLanguage /> },
+                  {
+                    when: (editor) => editor?.editorType === "codeblock",
+                    contents: () => <ChangeCodeMirrorLanguage />,
+                  },
                   {
                     fallback: () => (
                       <>

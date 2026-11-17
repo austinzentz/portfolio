@@ -26,7 +26,7 @@ export async function loader() {
 function SectionHeading({ children, to, linkLabel }: { children: string; to: string; linkLabel: string }) {
   return (
     <div className="mb-4 flex items-baseline justify-between border-b border-rule pb-2">
-      <h2 className="text-sm font-medium uppercase tracking-[0.08em] text-muted">{children}</h2>
+      <h2 className="text-sm font-medium tracking-[0.08em] text-muted uppercase">{children}</h2>
       <Link to={to} className="text-sm text-muted hover:text-fg">
         {linkLabel}
       </Link>
@@ -69,21 +69,21 @@ export default function Home({ loaderData }: Route.ComponentProps) {
       )}
 
       {sandboxes.length > 0 && (
-      <section className="mt-16">
-        <SectionHeading to="/sandbox" linkLabel="All demos">
-          Sandbox
-        </SectionHeading>
-        <ul className="space-y-4">
-          {sandboxes.map((s) => (
-            <li key={s.slug}>
-              <Link to={`/sandbox/${s.slug}`} className="group block no-underline">
-                <span className="font-serif text-lg group-hover:text-accent">{s.title}</span>
-                <p className="mt-1 text-sm leading-relaxed text-muted">{s.summary}</p>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </section>
+        <section className="mt-16">
+          <SectionHeading to="/sandbox" linkLabel="All demos">
+            Sandbox
+          </SectionHeading>
+          <ul className="space-y-4">
+            {sandboxes.map((s) => (
+              <li key={s.slug}>
+                <Link to={`/sandbox/${s.slug}`} className="group block no-underline">
+                  <span className="font-serif text-lg group-hover:text-accent">{s.title}</span>
+                  <p className="mt-1 text-sm leading-relaxed text-muted">{s.summary}</p>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
       )}
     </>
   );

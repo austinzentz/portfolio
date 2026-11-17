@@ -9,6 +9,8 @@ export function useLocalState<T>(key: string, initial: T, isValid: (v: unknown) 
   const [state, setState] = useState<T>(initial);
   const [loaded, setLoaded] = useState(false);
 
+  // Loading after mount is deliberate: the server can't see localStorage, so the first render must match `initial`.
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     try {
       const raw = window.localStorage.getItem(key);
@@ -22,6 +24,7 @@ export function useLocalState<T>(key: string, initial: T, isValid: (v: unknown) 
     setLoaded(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   useEffect(() => {
     if (!loaded) return;

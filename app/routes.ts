@@ -5,7 +5,7 @@ export default [
   route("posts", "routes/posts.tsx"),
   route("posts/:slug", "routes/post.tsx"),
   route("sandbox", "routes/sandbox.tsx"),
-  route("sandbox/staffing-budget", "sandbox/staffing-budget/route.tsx"),
+  route("sandbox/staffing-plan", "sandbox/staffing-plan/route.tsx"),
 
   // Old URLs and machine-readable files
   route("contact", "routes/contact.ts"),
@@ -17,9 +17,6 @@ export default [
   route("admin", "routes/admin/layout.tsx", [
     index("routes/admin/index.tsx"),
     route("media", "routes/admin/media.ts"),
-    ...prefix("posts", [
-      route("new", "routes/admin/post-new.tsx"),
-      route(":id", "routes/admin/post-edit.tsx"),
-    ]),
+    ...prefix("posts", [route("new", "routes/admin/post-new.tsx"), route(":id", "routes/admin/post-edit.tsx")]),
   ]),
 ] satisfies RouteConfig;

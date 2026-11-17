@@ -47,43 +47,74 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-const navClass = ({ isActive }: { isActive: boolean }) =>
-  `hover:text-fg ${isActive ? "text-fg" : "text-muted"}`;
+const navClass = ({ isActive }: { isActive: boolean }) => `hover:text-fg ${isActive ? "text-fg" : "text-muted"}`;
 
 /**
- * Pages are a narrow reading column by default. A route can opt into a wider page with
- *   export const handle = { layout: "wide" } satisfies RouteHandle;
- * Only the page content widens; the header and footer stay narrow everywhere so they never move.
+ * Pages are a narrow reading column by default, under the site header.
+ * A route can opt into a wide, app-style page instead:
+ *   export const handle = { layout: "wide", parent: { to: "/sandbox", label: "Sandbox" } } satisfies RouteHandle;
+ * Wide pages swap the header for a compact bar (logo / parent section) that spans the page,
+ * so the change reads as "you're inside a tool" rather than the header shifting position.
  */
-export type RouteHandle = { layout?: "wide" };
+export type RouteHandle = { layout?: "wide"; parent?: { to: string; label: string } };
 
-function useIsWide() {
-  return useMatches().some((m) => (m.handle as RouteHandle | undefined)?.layout === "wide");
+function useWideHandle() {
+  const matches = useMatches();
+  for (let i = matches.length - 1; i >= 0; i--) {
+    const handle = matches[i].handle as RouteHandle | undefined;
+    if (handle?.layout === "wide") return handle;
+  }
+  return null;
 }
 
 function Shell({ children }: { children: React.ReactNode }) {
-  const wide = useIsWide();
+  const wide = useWideHandle();
+  const frame = wide ? "max-w-6xl" : "max-w-[42rem]";
   return (
     <div className="flex min-h-dvh flex-col px-5 sm:px-6">
-      <header className="mx-auto flex w-full max-w-[42rem] items-baseline justify-between gap-4 py-8 sm:py-10">
-        <Link to="/" className="font-serif text-xl font-medium tracking-tight no-underline">
-          {site.name}
-        </Link>
-        <nav className="flex gap-5 text-sm">
-          <NavLink to="/posts" className={navClass}>
-            Writing
-          </NavLink>
-          <NavLink to="/sandbox" className={navClass}>
-            Sandbox
-          </NavLink>
-        </nav>
-      </header>
-      <main className={`mx-auto w-full flex-1 pb-16 ${wide ? "max-w-6xl" : "max-w-[42rem]"}`}>{children}</main>
-      <footer className="mx-auto flex w-full max-w-[42rem] flex-wrap justify-between gap-2 border-t border-rule py-8 text-sm text-muted">
+      {wide ? (
+        <header className="-mx-5 mb-8 border-b border-rule px-5 sm:-mx-6 sm:mb-10 sm:px-6">
+          <div className="mx-auto flex w-full max-w-6xl items-baseline gap-2 py-3.5 text-sm">
+            <Link to="/" className="font-serif text-base font-medium tracking-tight no-underline">
+              {site.name}
+            </Link>
+            {wide.parent && (
+              <>
+                <span aria-hidden className="text-rule">
+                  /
+                </span>
+                <Link to={wide.parent.to} className="text-muted hover:text-fg">
+                  {wide.parent.label}
+                </Link>
+              </>
+            )}
+          </div>
+        </header>
+      ) : (
+        <header className="mx-auto flex w-full max-w-[42rem] items-baseline justify-between gap-4 py-8 sm:py-10">
+          <Link to="/" className="font-serif text-xl font-medium tracking-tight no-underline">
+            {site.name}
+          </Link>
+          <nav className="flex gap-5 text-sm">
+            <NavLink to="/posts" className={navClass}>
+              Writing
+            </NavLink>
+            <NavLink to="/sandbox" className={navClass}>
+              Sandbox
+            </NavLink>
+          </nav>
+        </header>
+      )}
+      <main className={`mx-auto w-full flex-1 pb-16 ${frame}`}>{children}</main>
+      <footer
+        className={`mx-auto flex w-full flex-wrap justify-between gap-2 border-t border-rule py-8 text-sm text-muted ${frame}`}
+      >
         <a href={`mailto:${site.email}`} className="hover:text-fg">
           {site.email}
         </a>
-        <span>© {new Date().getFullYear()} {site.name}</span>
+        <span>
+          © {new Date().getFullYear()} {site.name}
+        </span>
       </footer>
     </div>
   );

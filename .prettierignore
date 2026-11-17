@@ -1,0 +1,8 @@
+build/
+.react-router/
+.wrangler/
+.seed/
+worker-configuration.d.ts
+package-lock.json
+# Published writing: leave the author's formatting alone.
+content/

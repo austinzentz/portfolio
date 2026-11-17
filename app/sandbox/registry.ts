@@ -3,10 +3,10 @@
 export type Sandbox = { slug: string; title: string; summary: string };
 
 export const sandboxes: Sandbox[] = [
-  // {
-  //   slug: "staffing-budget",
-  //   title: "Staffing budget planner",
-  //   summary:
-  //     "A small version of a tool I build often: plan positions, salaries and funding sources, and watch the totals move. Fictional school, fictional numbers.",
-  // },
+  {
+    slug: "staffing-plan",
+    title: "Next-year staffing plan",
+    summary:
+      "School leaders can drag this year's school staff into next year's budget to plan for vacancies and growth, ensuring principals and central office are on the same page. ",
+  },
 ];

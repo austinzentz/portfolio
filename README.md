@@ -45,15 +45,16 @@ npm run deploy                        # prints a *.workers.dev URL to check
 ### 2. Move DNS from Namecheap to Cloudflare (keep email working!)
 
 1. Cloudflare dashboard → **Add a domain** → `austinzentz.com` → Free plan. Cloudflare scans and imports the existing records.
-2. **Before changing nameservers,** compare the imported records against Namecheap's *Advanced DNS* page, line by line. The iCloud Mail records must all be there:
+2. **Before changing nameservers,** compare the imported records against Namecheap's _Advanced DNS_ page, line by line. The iCloud Mail records must all be there:
    - `MX` records for `@` (iCloud's are `mx01.mail.icloud.com` and `mx02.mail.icloud.com`)
    - `TXT` for `@` containing `apple-domain=…` and the SPF record `v=spf1 include:icloud.com ~all`
    - `CNAME` `sig1._domainkey` → `sig1.dkim.austinzentz.com.at.icloudmailadmin.com` (DKIM)
    - Any `_dmarc` TXT record
-   
+
    Copy whatever Namecheap actually has; the list above is what Apple usually asks for, not a substitute for checking.
+
 3. Delete the old Vercel records (`A` → `76.76.21.21`, `CNAME` → `cname.vercel-dns.com`) and the old Amazon SES records for `mail.austinzentz.com` (the contact form is gone).
-4. At Namecheap → Domain → **Nameservers** → *Custom DNS* → the two Cloudflare nameservers. Wait for Cloudflare to show the domain as **Active**, then send yourself a test email.
+4. At Namecheap → Domain → **Nameservers** → _Custom DNS_ → the two Cloudflare nameservers. Wait for Cloudflare to show the domain as **Active**, then send yourself a test email.
 
 ### 3. Point the domain at the Worker
 
@@ -62,7 +63,7 @@ Uncomment `routes` and `workers_dev` in `wrangler.jsonc`, then `npm run deploy`.
 ### 4. Lock down /admin with Cloudflare Access
 
 1. Cloudflare dashboard → **Zero Trust** (pick a team name; the Free plan covers up to 50 users).
-2. **Access → Applications → Add → Self-hosted.** Domain `austinzentz.com`, path `admin`. Policy: *Allow*, rule *Emails* = your address. Login method: *One-time PIN* (or add GitHub/Google as an identity provider).
+2. **Access → Applications → Add → Self-hosted.** Domain `austinzentz.com`, path `admin`. Policy: _Allow_, rule _Emails_ = your address. Login method: _One-time PIN_ (or add GitHub/Google as an identity provider).
 3. Copy the application's **AUD tag**. In `wrangler.jsonc` set `ACCESS_TEAM_DOMAIN` to `<team>.cloudflareaccess.com` and `ACCESS_AUD` to the tag, then `npm run deploy`.
 
 The app also verifies Access's signed JWT on every `/admin` request, and refuses everyone if those two values are missing.

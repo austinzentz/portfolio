@@ -1,8 +1,7 @@
 import { listPublished } from "~/lib/posts.server";
 import { site } from "~/lib/site";
 
-const esc = (s: string) =>
-  s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
 export async function loader() {
   const posts = await listPublished(50);

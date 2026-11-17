@@ -36,9 +36,7 @@ export default function PostPage({ loaderData: { post, html } }: Route.Component
   return (
     <article>
       <header className="mb-10">
-        <h1 className="font-serif text-3xl font-medium leading-tight tracking-tight sm:text-4xl">
-          {post.title}
-        </h1>
+        <h1 className="font-serif text-3xl leading-tight font-medium tracking-tight sm:text-4xl">{post.title}</h1>
         {post.published_on && (
           <time dateTime={post.published_on} className="mt-3 block text-sm text-muted">
             {formatDate(post.published_on)}
