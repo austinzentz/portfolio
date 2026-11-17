@@ -12,10 +12,7 @@ export default function Sandbox() {
   return (
     <>
       <h1 className="font-serif text-3xl font-medium tracking-tight">Sandbox</h1>
-      <p className="mt-3 mb-10 text-muted">
-        Small, working versions of the kinds of tools I build, with made-up data. Anything you change stays in your
-        browser, and you can reset it any time.
-      </p>
+      <p className="mt-3 mb-10 text-muted">Sandbox, local-only versions of apps and tools I've built.</p>
       {sandboxes.length === 0 && <p className="text-muted">Nothing here yet.</p>}
       <ul className="divide-y divide-rule">
         {sandboxes.map((s) => (
