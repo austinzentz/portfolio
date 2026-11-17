@@ -1,0 +1,170 @@
+@import "tailwindcss";
+@import "@fontsource-variable/newsreader";
+@import "@fontsource-variable/newsreader/wght-italic.css";
+@plugin "@tailwindcss/typography";
+
+/* Design tokens. One accent, warm neutrals, light and dark. */
+:root {
+  --bg: #fbfaf7;
+  --fg: #1d1c1a;
+  --muted: #6b675f;
+  --rule: #e5e1d8;
+  --accent: #2f5d50;
+  --surface: #f3f1ec;
+  --code-fg: #2a2926;
+  --hl-keyword: #8a3b54;
+  --hl-string: #3c6e2f;
+  --hl-number: #9a5b13;
+  --hl-comment: #8b867c;
+  --hl-title: #2f5d7a;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #151513;
+    --fg: #e9e6df;
+    --muted: #9c978d;
+    --rule: #2e2d29;
+    --accent: #8fc3ae;
+    --surface: #1e1d1a;
+    --code-fg: #dedad2;
+    --hl-keyword: #e39ab1;
+    --hl-string: #a8cf8e;
+    --hl-number: #e3b26f;
+    --hl-comment: #7f7a70;
+    --hl-title: #8fbcdc;
+    color-scheme: dark;
+  }
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-rule: var(--rule);
+  --color-accent: var(--accent);
+  --color-surface: var(--surface);
+  --font-serif: "Newsreader Variable", ui-serif, Georgia, serif;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+html {
+  background: var(--bg);
+  color: var(--fg);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  @apply font-sans antialiased;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--accent) 25%, transparent);
+}
+
+a {
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 1px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Long-form text: serif, comfortable measure. */
+.prose-site {
+  @apply prose max-w-none font-serif text-[1.1875rem] leading-[1.65];
+  --tw-prose-body: var(--fg);
+  --tw-prose-headings: var(--fg);
+  --tw-prose-links: var(--accent);
+  --tw-prose-bold: var(--fg);
+  --tw-prose-quotes: var(--muted);
+  --tw-prose-quote-borders: var(--rule);
+  --tw-prose-bullets: var(--muted);
+  --tw-prose-counters: var(--muted);
+  --tw-prose-hr: var(--rule);
+  --tw-prose-code: var(--fg);
+  --tw-prose-pre-code: var(--code-fg);
+  --tw-prose-pre-bg: var(--surface);
+  --tw-prose-th-borders: var(--rule);
+  --tw-prose-td-borders: var(--rule);
+  --tw-prose-captions: var(--muted);
+}
+.prose-site :where(h1, h2, h3, h4) {
+  @apply font-serif font-medium tracking-tight;
+}
+.prose-site :where(code):not(:where(pre code)) {
+  @apply rounded bg-surface px-1 py-0.5 font-normal;
+  font-size: 0.85em;
+}
+.prose-site :where(code):not(:where(pre code))::before,
+.prose-site :where(code):not(:where(pre code))::after {
+  content: none;
+}
+.prose-site :where(pre) {
+  @apply rounded-md border border-rule text-[0.8125rem] leading-relaxed;
+}
+.prose-site :where(img) {
+  @apply rounded-md;
+}
+
+/* highlight.js tokens, mapped to the palette above */
+.hljs-keyword, .hljs-selector-tag, .hljs-literal, .hljs-doctag, .hljs-meta .hljs-keyword { color: var(--hl-keyword); }
+.hljs-string, .hljs-regexp, .hljs-addition, .hljs-attribute, .hljs-meta .hljs-string { color: var(--hl-string); }
+.hljs-number, .hljs-symbol, .hljs-bullet, .hljs-variable.constant_ { color: var(--hl-number); }
+.hljs-comment, .hljs-quote, .hljs-deletion { color: var(--hl-comment); font-style: italic; }
+.hljs-title, .hljs-section, .hljs-name, .hljs-attr, .hljs-built_in, .hljs-type, .hljs-tag { color: var(--hl-title); }
+
+/* MDXEditor (admin only): map its theme variables onto the site palette, so it follows light/dark too.
+   Its dialogs and dropdowns render in a separate popup container, which needs the same variables. */
+.mdx-site,
+.mdxeditor-popup-container {
+  --basePageBg: var(--bg);
+  --baseBase: var(--bg);
+  --baseBgSubtle: var(--surface);
+  --baseBg: var(--surface);
+  --baseBgHover: color-mix(in oklab, var(--fg) 8%, var(--bg));
+  --baseBgActive: color-mix(in oklab, var(--fg) 13%, var(--bg));
+  --baseLine: var(--rule);
+  --baseBorder: var(--rule);
+  --baseBorderHover: color-mix(in oklab, var(--fg) 30%, var(--bg));
+  --baseSolid: var(--muted);
+  --baseSolidHover: var(--fg);
+  --baseText: var(--muted);
+  --baseTextContrast: var(--fg);
+  --accentBase: var(--bg);
+  --accentBgSubtle: color-mix(in oklab, var(--accent) 6%, var(--bg));
+  --accentBg: color-mix(in oklab, var(--accent) 12%, var(--bg));
+  --accentBgHover: color-mix(in oklab, var(--accent) 18%, var(--bg));
+  --accentBgActive: color-mix(in oklab, var(--accent) 24%, var(--bg));
+  --accentLine: color-mix(in oklab, var(--accent) 35%, var(--bg));
+  --accentBorder: color-mix(in oklab, var(--accent) 50%, var(--bg));
+  --accentBorderHover: var(--accent);
+  --accentSolid: var(--accent);
+  --accentSolidHover: var(--accent);
+  --accentText: var(--accent);
+  --accentTextContrast: var(--fg);
+  --font-body: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: var(--fg);
+}
+.mdx-site {
+  border: 1px solid var(--rule);
+  border-radius: 0.375rem;
+}
+.mdx-site-content {
+  min-height: 60vh;
+  padding: 1.25rem 1.5rem;
+}
+.mdx-site :where(.cm-editor) {
+  background: var(--surface);
+  color: var(--code-fg);
+}
+.mdx-site :where(.cm-gutters) {
+  background: var(--surface);
+  border-color: var(--rule);
+  color: var(--muted);
+}
