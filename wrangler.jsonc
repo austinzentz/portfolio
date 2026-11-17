@@ -5,17 +5,17 @@
   "main": "./workers/app.ts",
   "observability": { "enabled": true },
   // Uncomment once austinzentz.com is on Cloudflare DNS (README step 5).
-  // "routes": [
-  //   { "pattern": "austinzentz.com", "custom_domain": true },
-  //   { "pattern": "www.austinzentz.com", "custom_domain": true }
-  // ],
-  // "workers_dev": false,
+  "routes": [
+    { "pattern": "austinzentz.com", "custom_domain": true },
+    { "pattern": "www.austinzentz.com", "custom_domain": true },
+  ],
+  "workers_dev": false,
   "d1_databases": [
     {
       "binding": "DB",
       "database_name": "portfolio",
       // Replace with the id printed by `npx wrangler d1 create portfolio`.
-      "database_id": "00000000-0000-0000-0000-000000000000",
+      "database_id": "8ad85694-1144-4e55-b73c-a2b98333690c",
       "migrations_dir": "migrations",
     },
   ],
@@ -29,7 +29,7 @@
   "vars": {
     // Cloudflare Access settings for /admin. Fill these in after creating the
     // Access application (see README). Admin stays locked until both are set.
-    "ACCESS_TEAM_DOMAIN": "",
-    "ACCESS_AUD": "",
+    "ACCESS_TEAM_DOMAIN": "wispy-shape-7f92.cloudflareaccess.com",
+    "ACCESS_AUD": "d36341b91416089ef9d71ca0833c4f0e3453b0373e13d8d509bd97757b43a118",
   },
 }

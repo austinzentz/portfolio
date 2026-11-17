@@ -63,7 +63,7 @@ Uncomment `routes` and `workers_dev` in `wrangler.jsonc`, then `npm run deploy`.
 ### 4. Lock down /admin with Cloudflare Access
 
 1. Cloudflare dashboard → **Zero Trust** (pick a team name; the Free plan covers up to 50 users).
-2. **Access → Applications → Add → Self-hosted.** Domain `austinzentz.com`, path `admin`. Policy: _Allow_, rule _Emails_ = your address. Login method: _One-time PIN_ (or add GitHub/Google as an identity provider).
+2. **Access → Applications → Add → Self-hosted.** Add two destinations: domain `austinzentz.com` with path `admin`, and domain `austinzentz.com` with path `admin.data`. The second one covers the data requests React Router makes when you click a link back to `/admin`; without it, those requests skip Access and the app answers 403. Policy: _Allow_, rule _Emails_ = your address. Login method: _One-time PIN_ (or add GitHub/Google as an identity provider).
 3. Copy the application's **AUD tag**. In `wrangler.jsonc` set `ACCESS_TEAM_DOMAIN` to `<team>.cloudflareaccess.com` and `ACCESS_AUD` to the tag, then `npm run deploy`.
 
 The app also verifies Access's signed JWT on every `/admin` request, and refuses everyone if those two values are missing.
